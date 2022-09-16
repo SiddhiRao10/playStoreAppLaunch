@@ -1,0 +1,13 @@
+{
+  "server": "hub-cloud.browserstack.com",
+  "capabilities": {
+    "name": "AppLaunchTest",
+    "platformName": "android",
+    "build": "playStore App Launch"
+  },
+  "environments": {
+    "env1": {
+      "deviceName": "Google Pixel 5"
+    }
+  }
+}
