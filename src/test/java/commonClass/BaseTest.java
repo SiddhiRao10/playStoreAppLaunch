@@ -4,12 +4,10 @@ import com.browserstack.local.Local;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.ios.IOSDriver;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -56,7 +54,7 @@ public class BaseTest {
                 if (capabilities.getCapability(pair.getKey().toString()) == null) {
                     capabilities.setCapability(pair.getKey().toString(), pair.getValue().toString());
                     capabilities.setCapability("build", buildName);
-                    capabilities.setCapability("app", "bs://dc9ea895eb05114744edb24f2639b6b6057a35bf");
+                    capabilities.setCapability("app", "bs://<enter-your-app-location>");
                     capabilities.setCapability("browserstack.networkLogs", "true");
                     capabilities.setCapability("browserstack.user",username);
                     capabilities.setCapability("browserstack.key",accessKey);

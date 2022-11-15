@@ -2,57 +2,89 @@ package tests;
 
 import commonClass.BaseTest;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.By;
+
 import org.openqa.selenium.NotFoundException;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
 
 public class playStoreApp extends BaseTest {
-@Test
-public void demoSiteTest() throws InterruptedException {
-        Thread.sleep(3000);
+    @Test
+    public void demoSiteTest() throws InterruptedException {
+
         System.out.println("android session launched");
 
-        String app="whatsapp";
-
-        FluentWait<AppiumDriver<MobileElement>> wait=new FluentWait<>(driver)
-        .withTimeout(Duration.ofSeconds(10))
-        .ignoring(NotFoundException.class);
+        String app = "whatsapp";
+        
+        // Launch the Play store 
+        FluentWait<AppiumDriver<MobileElement>> wait = new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(20))
+                .ignoring(NotFoundException.class);
 
         try {
 
-        Activity androidActivity=new Activity("com.android.vending", "com.google.android.finsky.activities.MainActivity");
-        ((AndroidDriver<MobileElement>)driver).startActivity(androidActivity);
+            Activity androidActivity = new Activity("com.android.vending",
+                    "com.google.android.finsky.activities.MainActivity");
+            ((AndroidDriver<MobileElement>) driver).startActivity(androidActivity);
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        catch(Exception e)
-        {
-        System.out.println(e);
-        }
+        
+        // Click the Search Box
+        MobileElement searchBox = (MobileElement) new WebDriverWait(
+                driver,
+                30)
+                .until(
+                        ExpectedConditions.visibilityOfElementLocated(
+                                MobileBy.xpath(
+                                        "//android.view.View[@content-desc='Search Google Play']")));
+        searchBox.click();
 
-        Thread.sleep(3000);
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/androidx.drawerlayout.widget.DrawerLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View[1]/android.view.View")).click();
+        // Type 'whatsapp' in the search bar and enter
+        MobileElement searchBar = (MobileElement) new WebDriverWait(
+                driver,
+                60)
+                .until(
+                        ExpectedConditions.visibilityOfElementLocated(
+                                MobileBy.xpath("//android.widget.EditText[@text='Search for apps & games']")));
+        searchBar.sendKeys(app+"\\n");
+        
+        // Click on the first result : Whatsapp Messenger
+        MobileElement resultText = (MobileElement) new WebDriverWait(
+                driver,
+                30)
+                .until(
+                        ExpectedConditions.visibilityOfElementLocated(
+                                MobileBy.xpath("//android.widget.TextView[@text='WhatsApp Messenger']")));
+        resultText.click();
 
-        driver.findElement(By.xpath("//android.widget.EditText[@text='Search for apps & games']")).sendKeys(app);
-        Thread.sleep(2000);
-        driver.findElement(By.xpath("//android.widget.TextView[@text='whatsapp']")).click();
-        Thread.sleep(2000);
-        driver.findElement(By.xpath("//android.widget.TextView[@text='Install']")).click();
-        Thread.sleep(10000);
-        int confirm=0;
-        FluentWait<AppiumDriver<MobileElement>> installwait=new FluentWait<>(driver)
-        .withTimeout(Duration.ofSeconds(2))
-        .pollingEvery(Duration.ofSeconds(10))
-        .ignoring(NotFoundException.class);
-        Thread.sleep(50000);
-        driver.findElement(By.xpath("//android.widget.TextView[@text='Open']")).click();
+        // Click the Install Button
+        MobileElement installButton = (MobileElement) new WebDriverWait(
+                driver,
+                30)
+                .until(
+                        ExpectedConditions.visibilityOfElementLocated(
+                                MobileBy.xpath("//android.view.View[@content-desc='Install']")));
+        installButton.click();
+
+        // Wait for the Open button's parent to be Enabled and Visible - this should indicate that the app is installed
+        MobileElement openButton = (MobileElement) new WebDriverWait(
+                driver,
+                600)
+                .until(
+                        ExpectedConditions.elementToBeClickable(
+                                MobileBy.xpath("//*[android.view.View[@content-desc='Open']]")));
+        openButton.click();
+
+        // Voila
         System.out.println("App is installed");
-        Thread.sleep(8000);
 
-        }
-        }
-
+    }
+}
