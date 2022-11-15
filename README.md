@@ -1,5 +1,5 @@
 # playStoreAppLaunch
-This project showcases how to load a PlayStore from Browserstack using App Automate with appStoreConfiguration in the capabilities, then install an app from there (in this example, we download whatsapp) and confirm the app is installed on the device.
+This project showcases how to load a PlayStore app from Browserstack using App Automate with appStoreConfiguration in the capabilities, then install an app from there (in this example, we download whatsapp) and confirm the app is installed on the device.
 
 ## Requirements
 - usual environment variables (BROWSERSTACK_USERNAME,BROWSERSTACK_ACCESS_KEY,BROWSERSTACK_BUILD_NAME)
