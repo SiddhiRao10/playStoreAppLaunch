@@ -30,6 +30,7 @@ public class BaseTest {
     String buildName = System.getenv("BROWSERSTACK_BUILD_NAME");
     String googleUserName = System.getenv("GOOGLE_USERNAME");
     String googlePassword = System.getenv("GOOGLE_PASSWORD");
+    String appID = System.getenv("BROWSERSTACK_APP_ID");
     private static final String BROWSERSTACK_HUB_URL = "hub-cloud.browserstack.com";
     public MobileHelper mobileHelper;
 
@@ -54,7 +55,7 @@ public class BaseTest {
                 if (capabilities.getCapability(pair.getKey().toString()) == null) {
                     capabilities.setCapability(pair.getKey().toString(), pair.getValue().toString());
                     capabilities.setCapability("build", buildName);
-                    capabilities.setCapability("app", "bs://<enter-your-app-location>");
+                    capabilities.setCapability("app", appID);
                     capabilities.setCapability("browserstack.networkLogs", "true");
                     capabilities.setCapability("browserstack.user",username);
                     capabilities.setCapability("browserstack.key",accessKey);
